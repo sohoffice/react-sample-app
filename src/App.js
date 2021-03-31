@@ -2,17 +2,22 @@ import React from 'react';
 import logo from './logo.svg';
 import { Counter } from './features/counter/Counter';
 import './App.css';
+import {ShowRest} from "./features/rest/ShowRest";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
+        <div className="row">
+          <div className="col-6">
+            <img src={logo} className="App-logo" alt="logo" />
+            <Counter />
+          </div>
+          <div className="col-6">
+            <ShowRest/>
+          </div>
+        </div>
+        <span className={"mt-3"}>
           <span>Learn </span>
           <a
             className="App-link"
