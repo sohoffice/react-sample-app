@@ -1,7 +1,8 @@
 Initial setup
 -------------
 
-Install all dependencies with `npm install`
+- Must have node v12+ installed
+- Install all dependencies with `npm install`
 
 Development server
 ------------------
