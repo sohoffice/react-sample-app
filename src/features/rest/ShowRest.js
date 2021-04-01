@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {doClear, selectRestValue, startGetFoo} from "./restSlice";
 import * as s from 'superstruct';
@@ -49,6 +49,12 @@ export function ShowRest() {
     })
   });
   const {register, handleSubmit, watch, errors, reset} = form;
+
+  useEffect(() => {
+    // set the default value of form
+    reset({id: 1});
+  }, [reset]);
+
   const doHandleSubmit = async data => {
     const postId = data.id;
     logger("submit post id: %s", postId);
@@ -58,6 +64,7 @@ export function ShowRest() {
   }
 
   const onClear = () => {
+    reset({});
     dispatch(doClear());
   }
   const prepareDisplay = input => {
@@ -70,20 +77,21 @@ export function ShowRest() {
         <p>{restValue?.status}</p>
         <pre>{prepareDisplay(restValue?.body)}</pre>
       </div>
-      <div className="mt-2 text-center">
-        <form className={"form-inline"} onSubmit={handleSubmit(doHandleSubmit)} noValidate>
-          <div className="form-group">
-            <label for="postId">No:</label>
-            <input type="text" className={`form-control ${hasError(errors, "id")}`} name="id" id="postId" ref={register}
+      <div className="mt-2">
+        <form onSubmit={handleSubmit(doHandleSubmit)} noValidate>
+          <div className="form-row">
+            <label className="col-1" for="postId">#</label>
+            <input type="text" className={`col-10 form-control ${hasError(errors, "id") ? "is-invalid" : "is-valid"}`}
+                   name="id" id="postId" ref={register}
                    placeholder="Post ID"/>
+            <div className="invalid-feedback">{errors?.id?.message}</div>
           </div>
           <input className={"btn btn-primary ml-1"} type={"submit"}
-                 disabled={loading} value="Get" />
+                 disabled={loading} value="Get"/>
           <button className={"btn btn-secondary ml-1"}
                   onClick={onClear}>Reset
           </button>
         </form>
-        {JSON.stringify(errors)}
       </div>
     </div>
   );
